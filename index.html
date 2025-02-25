@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #333;
+        }
+        .container {
+            background: white;
+            width: 40%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 95%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        small {
+            font-size: 12px;
+            color: #666;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    </style>
+    <script>
+        function validateLoginForm(event) {
+            event.preventDefault();
+            let username = document.getElementById("loginUsername").value;
+            let password = document.getElementById("loginPassword").value;
+            let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+
+            if (username.trim() === "") {
+                alert("Username is required.");
+                return false;
+            }
+            if (!passwordPattern.test(password)) {
+                alert("Password must contain one uppercase, one lowercase, one digit, and one special character.");
+                return false;
+            }
+            alert("Login successful!");
+            return true;
+        }
+
+        function validateRegistrationForm(event) {
+            event.preventDefault();
+            let firstName = document.getElementById("firstName").value;
+            let lastName = document.getElementById("lastName").value;
+            let email = document.getElementById("email").value;
+            let dob = document.getElementById("dob").value;
+            let genderMale = document.getElementById("genderMale").checked;
+            let genderFemale = document.getElementById("genderFemale").checked;
+            let programmingLang = document.querySelectorAll("input[name='programming']:checked");
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            let firstNameError = document.getElementById("firstNameError");
+
+            if (firstName.trim() === "") {
+                firstNameError.innerText = "username required";
+                return false;
+            } else {
+                firstNameError.innerText = "";
+            }
+            if (lastName.trim() === "") {
+                alert("Last name is required.");
+                return false;
+            }
+            if (!genderMale && !genderFemale) {
+                alert("Please select a gender.");
+                return false;
+            }
+            if (!emailPattern.test(email)) {
+                alert("Invalid email format.");
+                return false;
+            }
+            if (dob === "") {
+                alert("Please select a date of birth.");
+                return false;
+            }
+            if (programmingLang.length === 0) {
+                alert("Please select at least one programming language.");
+                return false;
+            }
+
+            alert("Registration successful!");
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+    <h3>CSE, Daffodil International University</h3>
+    <button>Try me</button>
+
+    <div class="container">
+        <h4>Log in</h4>
+        <form onsubmit="return validateLoginForm(event)">
+            <label>Username</label>
+            <input type="text" id="loginUsername"><br>
+
+            <label>Password</label>
+            <input type="password" id="loginPassword"><br>
+            <small>one capital letter required<br>one lower letter required<br>one digit required<br>one special character required</small><br><br>
+
+            <button type="submit">SAVE</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h4>Registration</h4>
+        <form onsubmit="return validateRegistrationForm(event)">
+            <label>First Name</label>
+            <input type="text" id="firstName">
+            <span id="firstNameError" class="error"></span><br>
+
+            <label>Last Name</label>
+            <input type="text" id="lastName"><br>
+
+            <label>Gender:</label><br>
+            <input type="radio" id="genderMale" name="gender"> Male
+            <input type="radio" id="genderFemale" name="gender"> Female<br><br>
+
+            <label>Date of Birth</label>
+            <input type="date" id="dob"><br>
+
+            <label>Email</label>
+            <input type="email" id="email"><br>
+
+            <label>Programming Language:</label>
+            <div class="checkbox-group">
+                <input type="checkbox" name="programming" value="C"> C
+                <input type="checkbox" name="programming" value="Java"> Java
+                <input type="checkbox" name="programming" value="Python"> Python
+                <input type="checkbox" name="programming" value="PHP"> PHP
+                <input type="checkbox" name="programming" value="C#"> C#
+            </div><br>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+</body>
+</html>
